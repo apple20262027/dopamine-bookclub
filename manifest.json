@@ -1,0 +1,26 @@
+{
+  "name": "多巴胺读书会",
+  "short_name": "多巴胺读书会",
+  "description": "多巴胺读书会PWA - 成员管理、照片墙、活动发布和报名、书籍推荐",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FF6B9D",
+  "theme_color": "#FF6B9D",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22><text y=%22.9em%22 font-size=%22400%22>📚</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "orientation": "portrait-primary",
+  "categories": ["education", "social"],
+  "lang": "zh-CN"
+}

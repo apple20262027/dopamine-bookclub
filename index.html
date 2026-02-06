@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FF6B9D">
+    <meta name="description" content="多巴胺读书会 - 在这里，我们一起阅读、分享、成长">
+    <title>多巴胺读书会</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">📚</div>
+                <h2>多巴胺读书会</h2>
+            </div>
+            <ul class="nav-list">
+                <li class="nav-item active" data-page="home">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-text">首页</span>
+                </li>
+                <li class="nav-item" data-page="members">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-text">成员管理</span>
+                </li>
+                <li class="nav-item" data-page="photo-wall">
+                    <span class="nav-icon">🖼️</span>
+                    <span class="nav-text">照片墙</span>
+                </li>
+                <li class="nav-item" data-page="activities">
+                    <span class="nav-icon">📅</span>
+                    <span class="nav-text">活动报名</span>
+                </li>
+                <li class="nav-item" data-page="books">
+                    <span class="nav-icon">📖</span>
+                    <span class="nav-text">书籍推荐</span>
+                </li>
+                <li class="nav-item" data-page="about">
+                    <span class="nav-icon">ℹ️</span>
+                    <span class="nav-text">关于我们</span>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1 class="page-title">首页</h1>
+                <div class="header-actions">
+                    <button class="icon-btn">🔔</button>
+                    <button class="icon-btn">⚙️</button>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                <section id="home" class="page active">
+                    <div class="hero-section">
+                        <div class="hero-content">
+                            <h1 class="hero-title">欢迎来到<br><span class="gradient-text">多巴胺读书会</span></h1>
+                            <p class="hero-subtitle">在这里，我们一起阅读、分享、成长</p>
+                            <div class="hero-buttons">
+                                <button class="btn btn-primary btn-large">立即加入</button>
+                                <button class="btn btn-secondary btn-large">了解更多</button>
+                            </div>
+                        </div>
+                        <div class="hero-decoration">
+                            <div class="floating-book book-1">📚</div>
+                            <div class="floating-book book-2">📖</div>
+                            <div class="floating-book book-3">✨</div>
+                        </div>
+                    </div>
+
+                    <div class="stats-section">
+                        <div class="stat-card stat-pink">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-number" id="totalMembers">0</div>
+                            <div class="stat-label">成员总数</div>
+                        </div>
+                        <div class="stat-card stat-purple">
+                            <div class="stat-icon">📅</div>
+                            <div class="stat-number" id="totalActivities">0</div>
+                            <div class="stat-label">活动次数</div>
+                        </div>
+                        <div class="stat-card stat-blue">
+                            <div class="stat-icon">📚</div>
+                            <div class="stat-number" id="totalBooks">0</div>
+                            <div class="stat-label">推荐书籍</div>
+                        </div>
+                    </div>
+
+                    <div class="upcoming-section">
+                        <h2 class="section-title">📅 即将到来的活动</h2>
+                        <div class="activity-card" id="nextActivity">
+                            <div class="activity-date">
+                                <span class="day">15</span>
+                                <span class="month">1月</span>
+                            </div>
+                            <div class="activity-info">
+                                <h3>暂无活动安排</h3>
+                                <p>敬请期待</p>
+                            </div>
+                            <button class="btn btn-sm">查看详情</button>
+                        </div>
+                    </div>
+
+                    <div class="featured-section">
+                        <h2 class="section-title">🌟 精选书籍</h2>
+                        <div class="books-preview" id="booksPreview">
+                        </div>
+                    </div>
+                </section>
+
+                <section id="members" class="page">
+                    <div class="page-header">
+                        <h2>成员管理</h2>
+                        <button class="btn btn-primary" id="addMemberBtn">
+                            <span class="btn-icon">➕</span>
+                            添加成员
+                        </button>
+                    </div>
+
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="memberSearch" placeholder="搜索成员...">
+                    </div>
+
+                    <div class="members-grid" id="membersGrid">
+                    </div>
+
+                    <div class="modal" id="addMemberModal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>添加成员</h3>
+                                <button class="close-btn" id="closeMemberModal">×</button>
+                            </div>
+                            <form id="addMemberForm">
+                                <div class="form-group">
+                                    <label>姓名</label>
+                                    <input type="text" id="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>手机号</label>
+                                    <input type="tel" id="phone" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>微信号</label>
+                                    <input type="text" id="wechat" required>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-secondary" id="cancelAddMember">取消</button>
+                                    <button type="submit" class="btn btn-primary">添加</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="photo-wall" class="page">
+                    <div class="page-header">
+                        <h2>照片墙</h2>
+                        <button class="btn btn-primary" id="addPhotoBtn">
+                            <span class="btn-icon">📷</span>
+                            添加照片
+                        </button>
+                    </div>
+
+                    <div class="photo-grid" id="photoGrid">
+                    </div>
+
+                    <div class="modal" id="addPhotoModal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>添加照片</h3>
+                                <button class="close-btn" id="closePhotoModal">×</button>
+                            </div>
+                            <form id="addPhotoForm">
+                                <div class="form-group">
+                                    <label>日期</label>
+                                    <input type="date" id="photoDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>描述</label>
+                                    <input type="text" id="photoDescription" placeholder="例如：第12期多巴胺读书会" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>照片URL</label>
+                                    <input type="url" id="photoUrl" placeholder="https://..." required>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-secondary" id="cancelAddPhoto">取消</button>
+                                    <button type="submit" class="btn btn-primary">添加</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="activities" class="page">
+                    <div class="page-header">
+                        <h2>活动报名</h2>
+                        <button class="btn btn-primary" id="createActivityBtn">
+                            <span class="btn-icon">➕</span>
+                            发布活动
+                        </button>
+                    </div>
+
+                    <div class="activities-list" id="activitiesList">
+                    </div>
+
+                    <div class="modal" id="createActivityModal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>发布活动</h3>
+                                <button class="close-btn" id="closeActivityModal">×</button>
+                            </div>
+                            <form id="createActivityForm">
+                                <div class="form-group">
+                                    <label>活动标题</label>
+                                    <input type="text" id="activityTitle" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>活动日期</label>
+                                    <input type="datetime-local" id="activityDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>活动地点</label>
+                                    <input type="text" id="activityLocation" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>活动描述</label>
+                                    <textarea id="activityDescription" rows="4" required></textarea>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-secondary" id="cancelCreateActivity">取消</button>
+                                    <button type="submit" class="btn btn-primary">发布</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="books" class="page">
+                    <div class="page-header">
+                        <h2>书籍推荐</h2>
+                        <button class="btn btn-primary" id="addBookBtn">
+                            <span class="btn-icon">➕</span>
+                            添加书籍
+                        </button>
+                    </div>
+
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="bookSearch" placeholder="搜索书籍...">
+                    </div>
+
+                    <div class="books-grid" id="booksGrid">
+                    </div>
+
+                    <div class="modal" id="addBookModal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>添加书籍</h3>
+                                <button class="close-btn" id="closeBookModal">×</button>
+                            </div>
+                            <form id="addBookForm">
+                                <div class="form-group">
+                                    <label>书名</label>
+                                    <input type="text" id="bookTitle" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>作者</label>
+                                    <input type="text" id="bookAuthor" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>类型</label>
+                                    <input type="text" id="bookGenre" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>推荐理由</label>
+                                    <textarea id="bookDescription" rows="4" required></textarea>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-secondary" id="cancelAddBook">取消</button>
+                                    <button type="submit" class="btn btn-primary">添加</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="about" class="page">
+                    <div class="about-container">
+                        <div class="about-header">
+                            <h2>关于我们</h2>
+                            <p>多巴胺读书会 - 让阅读更有趣</p>
+                        </div>
+
+                        <div class="about-card">
+                            <h3>📖 我们的使命</h3>
+                            <p>我们是一个热爱阅读的社区，定期举办读书分享活动，旨在通过阅读交流，拓展视野，增长知识，结交志同道合的朋友。</p>
+                        </div>
+
+                        <div class="about-card">
+                            <h3>📅 活动频率</h3>
+                            <p>每月举办2次线下读书分享会，每次活动围绕一本精选书籍展开讨论。</p>
+                        </div>
+
+                        <div class="about-card">
+                            <h3>📞 联系方式</h3>
+                            <div class="contact-info">
+                                <div class="contact-item">
+                                    <span class="contact-icon">💬</span>
+                                    <span>微信：bookclub2026</span>
+                                </div>
+                                <div class="contact-item">
+                                    <span class="contact-icon">📧</span>
+                                    <span>邮箱：contact@bookclub.com</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => console.log('Service Worker 注册成功:', registration.scope))
+                    .catch(error => console.log('Service Worker 注册失败:', error));
+            });
+        }
+
+        let appData = {
+            members: [],
+            activities: [],
+            books: [],
+            photos: []
+        };
+
+        function initData() {
+            const savedData = localStorage.getItem('bookClubData');
+            if (savedData) {
+                appData = JSON.parse(savedData);
+            } else {
+                appData = {
+                    members: [
+                        { id: 1, name: '张三', phone: '13800138000', wechat: 'zhangsan', attendances: 5 },
+                        { id: 2, name: '李四', phone: '13900139000', wechat: 'lisi', attendances: 3 },
+                        { id: 3, name: '王五', phone: '13700137000', wechat: 'wangwu', attendances: 8 }
+                    ],
+                    activities: [
+                        {
+                            id: 1,
+                            title: '第1期多巴胺读书会',
+                            date: '2026-01-15T14:00',
+                            location: '图书馆',
+                            description: '讨论《百年孤独》',
+                            attendees: [1, 3]
+                        }
+                    ],
+                    books: [
+                        {
+                            id: 1,
+                            title: '百年孤独',
+                            author: '加西亚·马尔克斯',
+                            genre: '文学',
+                            description: '魔幻现实主义代表作'
+                        }
+                    ],
+                    photos: [
+                        {
+                            id: 1,
+                            date: '2026-01-15',
+                            description: '第1期多巴胺读书会合影',
+                            url: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=300&fit=crop'
+                        }
+                    ]
+                };
+                saveData();
+            }
+            renderAll();
+        }
+
+        function saveData() {
+            localStorage.setItem('bookClubData', JSON.stringify(appData));
+        }
+
+        function renderAll() {
+            renderHome();
+            renderMembers();
+            renderActivities();
+            renderBooks();
+            renderPhotos();
+        }
+
+        function renderHome() {
+            document.getElementById('totalMembers').textContent = appData.members.length;
+            document.getElementById('totalActivities').textContent = appData.activities.length;
+            document.getElementById('totalBooks').textContent = appData.books.length;
+
+            const nextActivity = document.getElementById('nextActivity');
+            if (appData.activities.length > 0) {
+                const activity = appData.activities[0];
+                const date = new Date(activity.date);
+                nextActivity.innerHTML = `
+                    <div class="activity-date">
+                        <span class="day">${date.getDate()}</span>
+                        <span class="month">${date.getMonth() + 1}月</span>
+                    </div>
+                    <div class="activity-info">
+                        <h3>${activity.title}</h3>
+                        <p>${activity.location}</p>
+                    </div>
+                    <button class="btn btn-sm">查看详情</button>
+                `;
+            }
+
+            const booksPreview = document.getElementById('booksPreview');
+            booksPreview.innerHTML = appData.books.slice(0, 3).map(book => `
+                <div class="book-card">
+                    <div class="book-cover">📖</div>
+                    <h4>${book.title}</h4>
+                    <p>${book.author}</p>
+                </div>
+            `).join('');
+        }
+
+        function renderMembers() {
+            const grid = document.getElementById('membersGrid');
+            grid.innerHTML = appData.members.map(member => `
+                <div class="member-card">
+                    <div class="member-avatar">${member.name.charAt(0)}</div>
+                    <div class="member-info">
+                        <h4>${member.name}</h4>
+                        <p>${member.phone}</p>
+                        <p>参加次数：${member.attendances}</p>
+                    </div>
+                    <button class="btn-icon" onclick="deleteMember(${member.id})">🗑️</button>
+                </div>
+            `).join('');
+        }
+
+        function renderActivities() {
+            const list = document.getElementById('activitiesList');
+            list.innerHTML = appData.activities.map(activity => {
+                const date = new Date(activity.date);
+                return `
+                    <div class="activity-item">
+                        <div class="activity-date-box">
+                            <span class="day">${date.getDate()}</span>
+                            <span class="month">${date.getMonth() + 1}月</span>
+                        </div>
+                        <div class="activity-details">
+                            <h4>${activity.title}</h4>
+                            <p>📍 ${activity.location}</p>
+                            <p>📅 ${date.toLocaleString('zh-CN')}</p>
+                            <p>${activity.description}</p>
+                        </div>
+                        <button class="btn-icon" onclick="deleteActivity(${activity.id})">🗑️</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderBooks() {
+            const grid = document.getElementById('booksGrid');
+            grid.innerHTML = appData.books.map(book => `
+                <div class="book-card">
+                    <div class="book-cover">📖</div>
+                    <div class="book-info">
+                        <h4>${book.title}</h4>
+                        <p>${book.author}</p>
+                        <span class="book-genre">${book.genre}</span>
+                        <p>${book.description}</p>
+                    </div>
+                    <button class="btn-icon" onclick="deleteBook(${book.id})">🗑️</button>
+                </div>
+            `).join('');
+        }
+
+        function renderPhotos() {
+            const grid = document.getElementById('photoGrid');
+            grid.innerHTML = appData.photos.map(photo => `
+                <div class="photo-card">
+                    <img src="${photo.url}" alt="${photo.description}" onerror="this.src='https://via.placeholder.com/400x300?text=Image'">
+                    <div class="photo-overlay">
+                        <h4>${photo.description}</h4>
+                        <p>${photo.date}</p>
+                    </div>
+                    <button class="btn-icon" onclick="deletePhoto(${photo.id})">🗑️</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteMember(id) {
+            if (confirm('确定要删除这个成员吗？')) {
+                appData.members = appData.members.filter(m => m.id !== id);
+                saveData();
+                renderMembers();
+                renderHome();
+            }
+        }
+
+        function deleteActivity(id) {
+            if (confirm('确定要删除这个活动吗？')) {
+                appData.activities = appData.activities.filter(a => a.id !== id);
+                saveData();
+                renderActivities();
+                renderHome();
+            }
+        }
+
+        function deleteBook(id) {
+            if (confirm('确定要删除这本书吗？')) {
+                appData.books = appData.books.filter(b => b.id !== id);
+                saveData();
+                renderBooks();
+                renderHome();
+            }
+        }
+
+        function deletePhoto(id) {
+            if (confirm('确定要删除这张照片吗？')) {
+                appData.photos = appData.photos.filter(p => p.id !== id);
+                saveData();
+                renderPhotos();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initData();
+
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+                mainContent.classList.toggle('sidebar-open');
+            });
+
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+
+                    const page = item.dataset.page;
+                    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                    document.getElementById(page).classList.add('active');
+
+                    document.querySelector('.page-title').textContent = item.querySelector('.nav-text').textContent;
+
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('open');
+                        mainContent.classList.remove('sidebar-open');
+                    }
+                });
+            });
+
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modals = document.querySelectorAll('.modal');
+
+            function openModal(modal) {
+                modal.classList.add('active');
+                modalOverlay.classList.add('active');
+            }
+
+            function closeModal(modal) {
+                modal.classList.remove('active');
+                modalOverlay.classList.remove('active');
+            }
+
+            document.getElementById('addMemberBtn').addEventListener('click', () => openModal(document.getElementById('addMemberModal')));
+            document.getElementById('closeMemberModal').addEventListener('click', () => closeModal(document.getElementById('addMemberModal')));
+            document.getElementById('cancelAddMember').addEventListener('click', () => closeModal(document.getElementById('addMemberModal')));
+
+            document.getElementById('addMemberForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const member = {
+                    id: Date.now(),
+                    name: document.getElementById('name').value,
+                    phone: document.getElementById('phone').value,
+                    wechat: document.getElementById('wechat').value,
+                    attendances: 0
+                };
+                appData.members.push(member);
+                saveData();
+                renderMembers();
+                renderHome();
+                closeModal(document.getElementById('addMemberModal'));
+                e.target.reset();
+            });
+
+            document.getElementById('addPhotoBtn').addEventListener('click', () => openModal(document.getElementById('addPhotoModal')));
+            document.getElementById('closePhotoModal').addEventListener('click', () => closeModal(document.getElementById('addPhotoModal')));
+            document.getElementById('cancelAddPhoto').addEventListener('click', () => closeModal(document.getElementById('addPhotoModal')));
+
+            document.getElementById('addPhotoForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const photo = {
+                    id: Date.now(),
+                    date: document.getElementById('photoDate').value,
+                    description: document.getElementById('photoDescription').value,
+                    url: document.getElementById('photoUrl').value
+                };
+                appData.photos.push(photo);
+                saveData();
+                renderPhotos();
+                closeModal(document.getElementById('addPhotoModal'));
+                e.target.reset();
+            });
+
+            document.getElementById('createActivityBtn').addEventListener('click', () => openModal(document.getElementById('createActivityModal')));
+            document.getElementById('closeActivityModal').addEventListener('click', () => closeModal(document.getElementById('createActivityModal')));
+            document.getElementById('cancelCreateActivity').addEventListener('click', () => closeModal(document.getElementById('createActivityModal')));
+
+            document.getElementById('createActivityForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const activity = {
+                    id: Date.now(),
+                    title: document.getElementById('activityTitle').value,
+                    date: document.getElementById('activityDate').value,
+                    location: document.getElementById('activityLocation').value,
+                    description: document.getElementById('activityDescription').value,
+                    attendees: []
+                };
+                appData.activities.push(activity);
+                saveData();
+                renderActivities();
+                renderHome();
+                closeModal(document.getElementById('createActivityModal'));
+                e.target.reset();
+            });
+
+            document.getElementById('addBookBtn').addEventListener('click', () => openModal(document.getElementById('addBookModal')));
+            document.getElementById('closeBookModal').addEventListener('click', () => closeModal(document.getElementById('addBookModal')));
+            document.getElementById('cancelAddBook').addEventListener('click', () => closeModal(document.getElementById('addBookModal')));
+
+            document.getElementById('addBookForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const book = {
+                    id: Date.now(),
+                    title: document.getElementById('bookTitle').value,
+                    author: document.getElementById('bookAuthor').value,
+                    genre: document.getElementById('bookGenre').value,
+                    description: document.getElementById('bookDescription').value
+                };
+                appData.books.push(book);
+                saveData();
+                renderBooks();
+                renderHome();
+                closeModal(document.getElementById('addBookModal'));
+                e.target.reset();
+            });
+
+            modalOverlay.addEventListener('click', () => {
+                modals.forEach(modal => closeModal(modal));
+            });
+
+            document.getElementById('memberSearch').addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                const filtered = appData.members.filter(m => 
+                    m.name.toLowerCase().includes(query) || 
+                    m.phone.includes(query)
+                );
+                const grid = document.getElementById('membersGrid');
+                grid.innerHTML = filtered.map(member => `
+                    <div class="member-card">
+                        <div class="member-avatar">${member.name.charAt(0)}</div>
+                        <div class="member-info">
+                            <h4>${member.name}</h4>
+                            <p>${member.phone}</p>
+                            <p>参加次数：${member.attendances}</p>
+                        </div>
+                        <button class="btn-icon" onclick="deleteMember(${member.id})">🗑️</button>
+                    </div>
+                `).join('');
+            });
+
+            document.getElementById('bookSearch').addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                const filtered = appData.books.filter(b => 
+                    b.title.toLowerCase().includes(query) || 
+                    b.author.toLowerCase().includes(query)
+                );
+                const grid = document.getElementById('booksGrid');
+                grid.innerHTML = filtered.map(book => `
+                    <div class="book-card">
+                        <div class="book-cover">📖</div>
+                        <div class="book-info">
+                            <h4>${book.title}</h4>
+                            <p>${book.author}</p>
+                            <span class="book-genre">${book.genre}</span>
+                            <p>${book.description}</p>
+                        </div>
+                        <button class="btn-icon" onclick="deleteBook(${book.id})">🗑️</button>
+                    </div>
+                `).join('');
+            });
+        });
+    </script>
+</body>
+</html>
